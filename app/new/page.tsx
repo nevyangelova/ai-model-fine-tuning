@@ -27,17 +27,15 @@ export default function NewJobPage() {
 
     return (
         <FormProvider>
-            <Box sx={{p: 4, maxWidth: 800, mx: 'auto'}}>
+            <Box sx={{p: 4, maxWidth: 1000, mx: 'auto'}}>
                 <Box sx={{display: 'flex', alignItems: 'center', mb: 4}}>
                     <Button
                         startIcon={<ArrowBack />}
                         onClick={() => router.push('/')}
                         sx={{mr: 2}}
-                    >
-                        Back to dashboard
-                    </Button>
+                    ></Button>
                     <Typography variant='h4' fontWeight={700}>
-                        New fine-tuning job
+                        Fine-tune a model
                     </Typography>
                 </Box>
 
@@ -69,12 +67,17 @@ function FormContent({onSuccess}: {onSuccess: () => void}) {
     const [apiError, setApiError] = useState<string | null>(null);
 
     return (
-        <Paper sx={{p: 4, mb: 4}}>
+        <Paper sx={{p: 4, mb: 4, position: 'relative'}}>
             <FormSteps />
-            <FormStepContent onSuccess={onSuccess} onError={(error) => {
-                setApiError(typeof error === 'string' ? error : String(error));
-            }} />
-            
+            <FormStepContent
+                onSuccess={onSuccess}
+                onError={(error) => {
+                    setApiError(
+                        typeof error === 'string' ? error : String(error)
+                    );
+                }}
+            />
+
             {apiError && (
                 <Alert severity='error' sx={{mt: 3}}>
                     Failed to create job: {apiError}
@@ -88,17 +91,16 @@ function FormSteps() {
     const {currentStep} = useFormContext();
 
     return (
-        <Box sx={{mb: 4}}>
+        <Box
+            sx={{
+                position: 'absolute',
+                right: '2rem',
+                top: '2rem',
+            }}
+        >
             <Typography variant='body2' color='text.secondary' gutterBottom>
-                Step {currentStep + 1} of {steps.length}
+                {currentStep + 1} of {steps.length}
             </Typography>
-            <Stepper activeStep={currentStep} alternativeLabel>
-                {steps.map((label) => (
-                    <Step key={label}>
-                        <StepLabel>{label}</StepLabel>
-                    </Step>
-                ))}
-            </Stepper>
         </Box>
     );
 }
@@ -111,7 +113,7 @@ function FormStepContent({
     onError: (error: unknown) => void;
 }) {
     const {currentStep} = useFormContext();
-    
+
     switch (currentStep) {
         case 0:
             return <SetupStep />;

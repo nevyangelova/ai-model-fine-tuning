@@ -20,10 +20,13 @@ import {
     List,
     ListItem,
     ListItemText,
+    Snackbar,
 } from '@mui/material';
 import {PieChart} from '@mui/x-charts/PieChart';
 import Link from 'next/link';
 import {useJobs} from '@/services/api';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import {BuildOutlined} from '@mui/icons-material';
 
 export default function DashboardPage() {
     const {data, isLoading, error} = useJobs();
@@ -43,7 +46,6 @@ export default function DashboardPage() {
         }
     };
 
-    // Format date to a more human-readable format
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
         return date.toLocaleDateString('en-US', {
@@ -53,7 +55,6 @@ export default function DashboardPage() {
         });
     };
 
-    // Prepare data for the pie chart
     const chartData = data?.summary
         ? [
               {
@@ -74,7 +75,6 @@ export default function DashboardPage() {
           ]
         : [];
 
-    // Check if there are any jobs to display in chart
     const hasJobs =
         data?.summary &&
         data.summary.running + data.summary.completed + data.summary.failed > 0;
@@ -85,7 +85,6 @@ export default function DashboardPage() {
                 Acme Inc
             </Typography>
 
-            {/* Top section with chart and stats */}
             <Box
                 sx={{
                     display: 'flex',
@@ -94,11 +93,10 @@ export default function DashboardPage() {
                     mb: 4,
                 }}
             >
-                {/* Left side - Chart */}
                 <Box sx={{flex: 1}}>
                     <Card>
                         <CardContent>
-                            <Typography variant='h6' gutterBottom>
+                            <Typography variant='h6' gutterBottom sx={{ml: 2}}>
                                 Fine-tuning usage
                             </Typography>
 
@@ -124,27 +122,30 @@ export default function DashboardPage() {
                                 </Box>
                             ) : (
                                 <>
-                                    <Box
+                                    <Card
                                         sx={{
-                                            height: 300,
                                             display: 'flex',
                                             justifyContent: 'space-between',
                                             alignItems: 'center',
+                                            p: 3,
+                                            m: 2,
                                         }}
                                     >
                                         <PieChart
+                                            width={140}
+                                            height={140}
+                                            tooltip={{trigger: 'none'}}
                                             series={[
                                                 {
                                                     data: chartData,
-                                                    innerRadius: 100,
-                                                    outerRadius: 80,
+                                                    innerRadius: 70,
+                                                    outerRadius: 60,
                                                     paddingAngle: 2,
                                                     cornerRadius: 4,
                                                     startAngle: 0,
                                                     endAngle: 360,
                                                 },
                                             ]}
-                                            height={200}
                                             slotProps={{
                                                 legend: {
                                                     direction: 'row',
@@ -155,7 +156,7 @@ export default function DashboardPage() {
                                                 },
                                             }}
                                         />
-                                        <List disablePadding>
+                                        <List sx={{flex: 2}} disablePadding>
                                             <ListItem>
                                                 <Box
                                                     component='span'
@@ -219,126 +220,183 @@ export default function DashboardPage() {
                                                 />
                                             </ListItem>
                                         </List>
-                                    </Box>
+                                    </Card>
                                     <CardContent>
-                                        {isLoading ? (
-                                            <Box
-                                                sx={{
-                                                    display: 'flex',
-                                                    justifyContent: 'center',
-                                                    p: 4,
-                                                }}
-                                            >
-                                                <CircularProgress />
-                                            </Box>
-                                        ) : error ? (
-                                            <Typography color='error'>
-                                                Error loading jobs:{' '}
-                                                {String(error)}
-                                            </Typography>
-                                        ) : data?.jobs.length === 0 ? (
-                                            <Box
-                                                sx={{textAlign: 'center', p: 4}}
-                                            >
-                                                <Typography color='text.secondary'>
-                                                    No jobs found. Create a new
-                                                    fine-tuning job to get
-                                                    started.
-                                                </Typography>
-                                            </Box>
-                                        ) : (
-                                            <TableContainer
-                                                component={Paper}
-                                                elevation={0}
-                                                variant='outlined'
-                                            >
-                                                <Table>
-                                                    <TableHead>
-                                                        <TableRow>
+                                        <TableContainer
+                                            component={Paper}
+                                            elevation={0}
+                                            variant='outlined'
+                                        >
+                                            <Table>
+                                                <TableHead>
+                                                    <TableRow>
+                                                        <TableCell
+                                                            sx={{
+                                                                backgroundColor:
+                                                                    '#f0f0f0',
+                                                            }}
+                                                        >
+                                                            Job ID
+                                                        </TableCell>
+                                                        <TableCell
+                                                            sx={{
+                                                                backgroundColor:
+                                                                    '#f0f0f0',
+                                                            }}
+                                                        >
+                                                            Date
+                                                        </TableCell>
+                                                        <TableCell
+                                                            align='right'
+                                                            sx={{
+                                                                backgroundColor:
+                                                                    '#f0f0f0',
+                                                            }}
+                                                        >
+                                                            Status
+                                                        </TableCell>
+                                                    </TableRow>
+                                                </TableHead>
+                                                <TableBody>
+                                                    {data?.jobs.map((job) => (
+                                                        <TableRow
+                                                            key={job.id}
+                                                            hover
+                                                        >
                                                             <TableCell>
-                                                                Job ID
+                                                                <Box
+                                                                    sx={{
+                                                                        display:
+                                                                            'inline-flex',
+                                                                        alignItems:
+                                                                            'center',
+                                                                        gap: 0.5,
+                                                                        backgroundColor:
+                                                                            '#e0e0e0',
+                                                                        borderRadius:
+                                                                            '4px',
+                                                                        px: 1,
+                                                                        py: 0.5,
+                                                                        cursor: 'pointer',
+                                                                    }}
+                                                                    onClick={() => {
+                                                                        navigator.clipboard.writeText(
+                                                                            job.id
+                                                                        );
+                                                                    }}
+                                                                >
+                                                                    <Typography variant='body2'>
+                                                                        {job.id}
+                                                                    </Typography>
+                                                                    <ContentCopyIcon
+                                                                        sx={{
+                                                                            fontSize: 16,
+                                                                        }}
+                                                                    />
+                                                                </Box>
                                                             </TableCell>
                                                             <TableCell>
-                                                                Date
+                                                                <Typography
+                                                                    variant='body2'
+                                                                    color='text.secondary'
+                                                                >
+                                                                    {formatDate(
+                                                                        job.createdAt
+                                                                    )}
+                                                                </Typography>
                                                             </TableCell>
                                                             <TableCell align='right'>
-                                                                Status
+                                                                <Chip
+                                                                    label={
+                                                                        job.status
+                                                                    }
+                                                                    color={getStatusColor(
+                                                                        job.status
+                                                                    )}
+                                                                    size='small'
+                                                                    variant='outlined'
+                                                                />
                                                             </TableCell>
                                                         </TableRow>
-                                                    </TableHead>
-                                                    <TableBody>
-                                                        {data?.jobs.map(
-                                                            (job) => (
-                                                                <TableRow
-                                                                    key={job.id}
-                                                                    hover
-                                                                >
-                                                                    <TableCell>
-                                                                        <Typography variant='body2'>
-                                                                            {
-                                                                                job.id
-                                                                            }
-                                                                        </Typography>
-                                                                    </TableCell>
-                                                                    <TableCell>
-                                                                        <Typography
-                                                                            variant='body2'
-                                                                            color='text.secondary'
-                                                                        >
-                                                                            {formatDate(
-                                                                                job.createdAt
-                                                                            )}
-                                                                        </Typography>
-                                                                    </TableCell>
-                                                                    <TableCell align='right'>
-                                                                        <Chip
-                                                                            label={
-                                                                                job.status
-                                                                            }
-                                                                            color={getStatusColor(
-                                                                                job.status
-                                                                            )}
-                                                                            size='small'
-                                                                            variant='outlined'
-                                                                        />
-                                                                    </TableCell>
-                                                                </TableRow>
-                                                            )
-                                                        )}
-                                                    </TableBody>
-                                                </Table>
-                                            </TableContainer>
-                                        )}
+                                                    ))}
+                                                </TableBody>
+                                            </Table>
+                                        </TableContainer>
                                     </CardContent>
                                 </>
                             )}
                         </CardContent>
                     </Card>
                 </Box>
+
                 <Box sx={{flex: 1}}>
-                    <Card sx={{mb: 2}}>
-                        <CardContent>
-                            <Typography variant='h6'>Get Started</Typography>
-                            <Typography variant='body2' sx={{mt: 1, mb: 2}}>
-                                Simple, ready-to-use inference endpoints that
-                                are paid per request. No commitments, only pay
-                                for what you use with Nscale Serverless.
-                            </Typography>
-                            <Button
-                                variant='contained'
-                                fullWidth
-                                component={Link}
-                                href='/new'
+                    <Card sx={{p: 2}}>
+                        <Typography variant='h6' gutterBottom sx={{ml: 2}}>
+                            Get Started
+                        </Typography>
+                        <CardContent
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 2,
+                            }}
+                        >
+                            <Card
+                                sx={{
+                                    display: 'flex',
+                                    height: '100%',
+                                    minHeight: '180px',
+                                }}
                             >
-                                New Fine-tuning Job
-                            </Button>
+                                <Box
+                                    sx={{
+                                        width: '30%',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        bgcolor: 'rgba(0, 0, 0, 0.02)',
+                                        borderRight:
+                                            '1px solid rgba(0, 0, 0, 0.06)',
+                                    }}
+                                >
+                                    <BuildOutlined
+                                        sx={{
+                                            fontSize: 64,
+                                            color: 'rgba(0, 0, 0, 0.5)',
+                                            transform: 'rotate(-15deg)',
+                                        }}
+                                    />
+                                </Box>
+                                <Box sx={{width: '70%', p: 3}}>
+                                    <Typography variant='h6' gutterBottom>
+                                        Get Started with Fine-tuning
+                                    </Typography>
+                                    <Typography variant='body2' sx={{mb: 2}}>
+                                        Simple, ready-to-use inference endpoints
+                                        that are paid per request. No
+                                        commitments, only pay for what you use
+                                        with Nscale Serverless.
+                                    </Typography>
+                                    <Button
+                                        variant='contained'
+                                        component={Link}
+                                        href='/new'
+                                        sx={{
+                                            backgroundColor: '#000',
+                                            borderRadius: '4px',
+                                            '&:hover': {
+                                                backgroundColor: '#333',
+                                            },
+                                        }}
+                                    >
+                                        New Fine-tuning Job
+                                    </Button>
+                                </Box>
+                            </Card>
                         </CardContent>
                     </Card>
                 </Box>
             </Box>
-
-            {/* Bottom section with jobs table */}
-            <Card></Card>
         </Box>
     );
 }

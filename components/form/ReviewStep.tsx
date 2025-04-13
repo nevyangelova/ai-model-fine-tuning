@@ -12,7 +12,7 @@ import {
 import {
     ScienceOutlined,
     SettingsOutlined,
-    DocumentScannerOutlined,
+    BuildOutlined,
 } from '@mui/icons-material';
 import {useFormContext} from '@/contexts/FormContext';
 import {useModels, useCreateJob} from '@/services/api';
@@ -63,15 +63,10 @@ export default function ReviewStep({onSuccess, onError}: ReviewStepProps) {
             <Typography variant='h5' fontWeight={600} gutterBottom>
                 Review your job
             </Typography>
-            <Typography variant='body1' color='text.secondary' paragraph>
-                Review your fine-tuning job details before starting.
-            </Typography>
 
             <Stack spacing={3} sx={{mt: 2}}>
-                <Paper sx={{p: 3, display: 'flex', alignItems: 'flex-start'}}>
-                    <DocumentScannerOutlined
-                        sx={{color: 'primary.main', mr: 2, mt: 0.5}}
-                    />
+                <Paper sx={{p: 3, display: 'flex', alignItems: 'center'}}>
+                    <BuildOutlined sx={{color: 'secondary', mr: 2, mt: 0.5}} />
                     <Box>
                         <Typography variant='h6' fontWeight={600}>
                             Job Name
@@ -82,9 +77,9 @@ export default function ReviewStep({onSuccess, onError}: ReviewStepProps) {
                     </Box>
                 </Paper>
 
-                <Paper sx={{p: 3, display: 'flex', alignItems: 'flex-start'}}>
+                <Paper sx={{p: 3, display: 'flex', alignItems: 'center'}}>
                     <ScienceOutlined
-                        sx={{color: 'primary.main', mr: 2, mt: 0.5}}
+                        sx={{color: 'secondary', mr: 2, mt: 0.5}}
                     />
                     <Box>
                         <Typography variant='h6' fontWeight={600}>
@@ -96,25 +91,24 @@ export default function ReviewStep({onSuccess, onError}: ReviewStepProps) {
                     </Box>
                 </Paper>
 
-                <Paper sx={{p: 3, display: 'flex', alignItems: 'flex-start'}}>
+                <Paper sx={{p: 3, display: 'flex', alignItems: 'center'}}>
                     <SettingsOutlined
-                        sx={{color: 'primary.main', mr: 2, mt: 0.5}}
+                        sx={{color: 'secondary', mr: 2, mt: 0.5}}
                     />
                     <Box>
                         <Typography variant='h6' fontWeight={600}>
                             Configuration
-                        </Typography>
-                        <Typography variant='body1' color='text.secondary'>
-                            {formData.epochs} epochs • Learning rate:{' '}
-                            {formData.learningRate}
                         </Typography>
                         <Typography
                             variant='body2'
                             color='text.secondary'
                             sx={{mt: 1}}
                         >
-                            Evaluation epochs: {formData.evaluationEpochs} •
-                            Warmup epochs: {formData.warmupEpochs}
+                            {' '}
+                            Epochs: {formData.epochs} • Eval epochs:{' '}
+                            {formData.evaluationEpochs} • Warmup epochs:{' '}
+                            {formData.warmupEpochs} • Learning rate:{' '}
+                            {formData.learningRate}
                         </Typography>
                     </Box>
                 </Paper>
@@ -124,14 +118,28 @@ export default function ReviewStep({onSuccess, onError}: ReviewStepProps) {
                 <Button
                     variant='outlined'
                     onClick={prevStep}
-                    disabled={isPending}
+                    sx={{
+                        borderColor: '#000',
+                        color: '#000',
+                        borderRadius: '4px',
+                        '&:hover': {
+                            backgroundColor: '#000',
+                            color: '#fff',
+                        },
+                    }}
                 >
                     Back
                 </Button>
                 <Button
                     variant='contained'
                     onClick={handleSubmit}
-                    disabled={isPending}
+                    sx={{
+                        backgroundColor: '#000',
+                        borderRadius: '4px',
+                        '&:hover': {
+                            backgroundColor: '#333',
+                        },
+                    }}
                 >
                     {isPending ? (
                         <>

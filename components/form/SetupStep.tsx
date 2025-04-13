@@ -24,11 +24,8 @@ export default function SetupStep() {
             <Typography variant='h5' fontWeight={600} gutterBottom>
                 Set up your run
             </Typography>
-            <Typography variant='body1' color='text.secondary' paragraph>
-                Give your job a name and select a base model to fine-tune.
-            </Typography>
 
-            <Box sx={{my: 4}}>
+            <Box sx={{my: 2}}>
                 <TextField
                     fullWidth
                     label='Job name'
@@ -37,7 +34,7 @@ export default function SetupStep() {
                     error={!!errors.name}
                     helperText={
                         errors.name ||
-                        '3-50 characters, alphanumeric and dashes only'
+                        'Can only contain lowercase alphanumeric characters and dashes.'
                     }
                     margin='normal'
                 />
@@ -83,9 +80,16 @@ export default function SetupStep() {
                 <Button
                     variant='contained'
                     onClick={nextStep}
+                    sx={{
+                        backgroundColor: '#000',
+                        borderRadius: '4px',
+                        '&:hover': {
+                            backgroundColor: '#333',
+                        },
+                    }}
                     disabled={isLoading}
                 >
-                    Next: Configure your run
+                    Next: Configure
                     {isLoading && <CircularProgress size={24} sx={{ml: 1}} />}
                 </Button>
             </Box>

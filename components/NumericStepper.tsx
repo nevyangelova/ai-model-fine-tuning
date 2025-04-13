@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import {Box, Typography, TextField, IconButton} from '@mui/material';
 import {Add, Remove} from '@mui/icons-material';
 
@@ -45,9 +46,10 @@ export default function NumericStepper({
 
     return (
         <Box sx={{mb: 3}}>
-            <Typography variant='body1' gutterBottom>
+            <Typography variant='body1' fontWeight={600} gutterBottom>
                 {label}
             </Typography>
+
             <Box sx={{display: 'flex', alignItems: 'center'}}>
                 <IconButton
                     onClick={handleDecrement}
@@ -57,22 +59,20 @@ export default function NumericStepper({
                 >
                     <Remove fontSize='small' />
                 </IconButton>
+
                 <TextField
-                    value={value}
-                    onChange={handleInputChange}
-                    type='number'
                     variant='outlined'
                     size='small'
+                    value={value}
+                    onChange={handleInputChange}
                     error={!!error}
-                    helperText={error || helperText}
-                    sx={{mx: 1, width: 70, textAlign: 'center'}}
-                    inputProps={{
-                        style: {textAlign: 'center'},
-                        min,
-                        max,
-                        step,
+                    sx={{
+                        mx: 1,
+                        width: 40,
+                        textAlign: 'center',
                     }}
                 />
+
                 <IconButton
                     onClick={handleIncrement}
                     disabled={max !== undefined && value >= max}
@@ -82,6 +82,15 @@ export default function NumericStepper({
                     <Add fontSize='small' />
                 </IconButton>
             </Box>
+
+            {(error || helperText) && (
+                <Typography
+                    variant='caption'
+                    sx={{color: error ? 'error.main' : 'text.secondary'}}
+                >
+                    {error || helperText}
+                </Typography>
+            )}
         </Box>
     );
 }

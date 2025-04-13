@@ -13,14 +13,17 @@ export default function ConfigureStep() {
             <Typography variant='h5' fontWeight={600} gutterBottom>
                 Configure your run
             </Typography>
-            <Typography variant='body1' color='text.secondary' paragraph>
-                Set the parameters for your fine-tuning job.
+            <Typography variant='body2' color='text.secondary' paragraph>
+                Adjust these parameters to control how your model learns,
+                balances performance, and prevents overfitting during
+                fine-tuning. See the docs for guidance on setting these
+                parameters for optimal fine-tuning.
             </Typography>
 
             <Stack
                 direction={{xs: 'column', md: 'row'}}
                 spacing={4}
-                sx={{mt: 2}}
+                sx={{mt: 4}}
             >
                 <Box sx={{flex: 1}}>
                     <NumericStepper
@@ -28,7 +31,7 @@ export default function ConfigureStep() {
                         value={formData.epochs}
                         onChange={(value) => updateField('epochs', value)}
                         error={errors.epochs}
-                        helperText='Total number of training epochs'
+                        helperText='Number of times the model sees the full dataset during training'
                         min={1}
                     />
 
@@ -39,7 +42,7 @@ export default function ConfigureStep() {
                             updateField('evaluationEpochs', value)
                         }
                         error={errors.evaluationEpochs}
-                        helperText='Number of epochs for evaluation'
+                        helperText='How often the model is evaluated during training'
                         min={0}
                     />
                 </Box>
@@ -50,12 +53,12 @@ export default function ConfigureStep() {
                         value={formData.warmupEpochs}
                         onChange={(value) => updateField('warmupEpochs', value)}
                         error={errors.warmupEpochs}
-                        helperText='Number of warmup epochs'
+                        helperText='Gradually increases the learning rate at the start of training'
                         min={0}
                     />
 
                     <Box sx={{mb: 3}}>
-                        <Typography variant='body1' gutterBottom>
+                        <Typography variant='body1' fontWeight={600} gutterBottom>
                             Learning Rate
                         </Typography>
                         <TextField
@@ -70,12 +73,12 @@ export default function ConfigureStep() {
                             }}
                             error={!!errors.learningRate}
                             helperText={
-                                errors.learningRate || 'Value between 0 and 1'
+                                errors.learningRate || 'Controls how much the model updates during training'
                             }
                             inputProps={{
                                 min: 0,
                                 max: 1,
-                                step: 0.0001
+                                step: 0.0001,
                             }}
                         />
                     </Box>
@@ -83,11 +86,33 @@ export default function ConfigureStep() {
             </Stack>
 
             <Box sx={{display: 'flex', justifyContent: 'space-between', mt: 4}}>
-                <Button variant='outlined' onClick={prevStep}>
+                <Button
+                    variant='outlined'
+                    onClick={prevStep}
+                    sx={{
+                        borderColor: '#000',
+                        color: '#000',
+                        borderRadius: '4px',
+                        '&:hover': {
+                            backgroundColor: '#000',
+                            color: '#fff',
+                        },
+                    }}
+                >
                     Back
                 </Button>
-                <Button variant='contained' onClick={nextStep}>
-                    Next: Review your job
+                <Button
+                    variant='contained'
+                    onClick={nextStep}
+                    sx={{
+                        backgroundColor: '#000',
+                        borderRadius: '4px',
+                        '&:hover': {
+                            backgroundColor: '#333',
+                        },
+                    }}
+                >
+                    Next: Review
                 </Button>
             </Box>
         </Box>
