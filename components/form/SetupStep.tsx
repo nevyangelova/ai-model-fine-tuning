@@ -19,6 +19,9 @@ export default function SetupStep() {
     const {formData, errors, updateField, nextStep} = useFormContext();
     const {data: models, isLoading, error: apiError} = useModels();
 
+    const isDisabled =
+        Object.keys(errors).length > 0 || !formData.name || !formData.baseModel;
+
     return (
         <Box>
             <Typography variant='h5' fontWeight={600} gutterBottom>
@@ -81,6 +84,7 @@ export default function SetupStep() {
                 nextLabel='Next: Configure'
                 isLoading={isLoading}
                 loadingText='Loading models...'
+                disabled={isDisabled}
             />
         </Box>
     );

@@ -60,9 +60,7 @@ export default function ReviewStep({onSuccess, onError}: ReviewStepProps) {
 
             <Stack spacing={3} sx={{mt: 2}}>
                 <Paper sx={{p: 3, display: 'flex', alignItems: 'center'}}>
-                    <BuildOutlined
-                        sx={{color: 'secondary.main', mr: 2, mt: 0.5}}
-                    />
+                    <BuildOutlined sx={{color: 'secondary', mr: 2, mt: 0.5}} />
                     <Box>
                         <Typography variant='h6' fontWeight={600}>
                             Job Name
@@ -75,7 +73,7 @@ export default function ReviewStep({onSuccess, onError}: ReviewStepProps) {
 
                 <Paper sx={{p: 3, display: 'flex', alignItems: 'center'}}>
                     <ScienceOutlined
-                        sx={{color: 'secondary.main', mr: 2, mt: 0.5}}
+                        sx={{color: 'secondary', mr: 2, mt: 0.5}}
                     />
                     <Box>
                         <Typography variant='h6' fontWeight={600}>
@@ -89,7 +87,7 @@ export default function ReviewStep({onSuccess, onError}: ReviewStepProps) {
 
                 <Paper sx={{p: 3, display: 'flex', alignItems: 'center'}}>
                     <SettingsOutlined
-                        sx={{color: 'secondary.main', mr: 2, mt: 0.5}}
+                        sx={{color: 'secondary', mr: 2, mt: 0.5}}
                     />
                     <Box>
                         <Typography variant='h6' fontWeight={600}>

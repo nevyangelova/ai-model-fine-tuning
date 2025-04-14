@@ -3,12 +3,14 @@
 import React from 'react';
 import {Box, Typography, TextField, Stack} from '@mui/material';
 import {useFormContext} from '@/contexts/FormContext';
-import NumericStepper from '@/components/NumericStepper';
+import NumericStepper from '@/components/ui/NumericStepper';
 import StepNavigation from '@/components/ui/StepNavigation';
 
 export default function ConfigureStep() {
     const {formData, errors, updateField, nextStep, prevStep} =
         useFormContext();
+
+    const hasErrors = Object.keys(errors).length > 0;
 
     return (
         <Box>
@@ -96,6 +98,7 @@ export default function ConfigureStep() {
                 onBack={prevStep}
                 onNext={nextStep}
                 nextLabel='Next: Review'
+                disabled={hasErrors}
             />
         </Box>
     );

@@ -11,6 +11,7 @@ interface StepNavigationProps {
     nextLabel?: string;
     isLoading?: boolean;
     loadingText?: string;
+    disabled?: boolean;
 }
 
 export default function StepNavigation({
@@ -19,15 +20,21 @@ export default function StepNavigation({
     nextLabel = 'Next',
     isLoading = false,
     loadingText = 'Submitting...',
+    disabled = false,
 }: StepNavigationProps) {
     return (
         <Box sx={{display: 'flex', justifyContent: 'space-between', mt: 4}}>
-            {onBack && <SecondaryButton onClick={onBack}>Back</SecondaryButton>}
+            {onBack && (
+                <SecondaryButton onClick={onBack} disabled={disabled}>
+                    Back
+                </SecondaryButton>
+            )}
             <Box sx={{flex: 1}} />
             <PrimaryButton
                 onClick={onNext}
                 isLoading={isLoading}
                 loadingText={loadingText}
+                disabled={disabled}
             >
                 {nextLabel}
             </PrimaryButton>

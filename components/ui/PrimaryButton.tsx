@@ -26,6 +26,13 @@ export default function PrimaryButton({
                 '&:hover': {
                     backgroundColor: '#333',
                 },
+                '&.Mui-disabled': {
+                    backgroundColor: 'rgba(0, 0, 0, 0.12)',
+                    color: 'rgba(0, 0, 0, 0.26)',
+                    boxShadow: 'none',
+                    pointerEvents: 'none',
+                    opacity: 0.7,
+                },
                 ...sx,
             }}
             {...rest}
