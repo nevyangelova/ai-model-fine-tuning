@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import {
     Box,
     Typography,
@@ -9,11 +10,10 @@ import {
     Select,
     MenuItem,
     FormHelperText,
-    Button,
-    CircularProgress,
 } from '@mui/material';
 import {useFormContext} from '@/contexts/FormContext';
 import {useModels} from '@/services/api';
+import StepNavigation from '@/components/ui/StepNavigation';
 
 export default function SetupStep() {
     const {formData, errors, updateField, nextStep} = useFormContext();
@@ -76,23 +76,12 @@ export default function SetupStep() {
                 </FormControl>
             </Box>
 
-            <Box sx={{display: 'flex', justifyContent: 'flex-end', mt: 4}}>
-                <Button
-                    variant='contained'
-                    onClick={nextStep}
-                    sx={{
-                        backgroundColor: '#000',
-                        borderRadius: '4px',
-                        '&:hover': {
-                            backgroundColor: '#333',
-                        },
-                    }}
-                    disabled={isLoading}
-                >
-                    Next: Configure
-                    {isLoading && <CircularProgress size={24} sx={{ml: 1}} />}
-                </Button>
-            </Box>
+            <StepNavigation
+                onNext={nextStep}
+                nextLabel='Next: Configure'
+                isLoading={isLoading}
+                loadingText='Loading models...'
+            />
         </Box>
     );
 }

@@ -1,8 +1,10 @@
 'use client';
 
-import {Box, Typography, TextField, Button, Stack} from '@mui/material';
+import React from 'react';
+import {Box, Typography, TextField, Stack} from '@mui/material';
 import {useFormContext} from '@/contexts/FormContext';
 import NumericStepper from '@/components/NumericStepper';
+import StepNavigation from '@/components/ui/StepNavigation';
 
 export default function ConfigureStep() {
     const {formData, errors, updateField, nextStep, prevStep} =
@@ -58,7 +60,11 @@ export default function ConfigureStep() {
                     />
 
                     <Box sx={{mb: 3}}>
-                        <Typography variant='body1' fontWeight={600} gutterBottom>
+                        <Typography
+                            variant='body1'
+                            fontWeight={600}
+                            gutterBottom
+                        >
                             Learning Rate
                         </Typography>
                         <TextField
@@ -73,7 +79,8 @@ export default function ConfigureStep() {
                             }}
                             error={!!errors.learningRate}
                             helperText={
-                                errors.learningRate || 'Controls how much the model updates during training'
+                                errors.learningRate ||
+                                'Controls how much the model updates during training'
                             }
                             inputProps={{
                                 min: 0,
@@ -85,36 +92,11 @@ export default function ConfigureStep() {
                 </Box>
             </Stack>
 
-            <Box sx={{display: 'flex', justifyContent: 'space-between', mt: 4}}>
-                <Button
-                    variant='outlined'
-                    onClick={prevStep}
-                    sx={{
-                        borderColor: '#000',
-                        color: '#000',
-                        borderRadius: '4px',
-                        '&:hover': {
-                            backgroundColor: '#000',
-                            color: '#fff',
-                        },
-                    }}
-                >
-                    Back
-                </Button>
-                <Button
-                    variant='contained'
-                    onClick={nextStep}
-                    sx={{
-                        backgroundColor: '#000',
-                        borderRadius: '4px',
-                        '&:hover': {
-                            backgroundColor: '#333',
-                        },
-                    }}
-                >
-                    Next: Review
-                </Button>
-            </Box>
+            <StepNavigation
+                onBack={prevStep}
+                onNext={nextStep}
+                nextLabel='Next: Review'
+            />
         </Box>
     );
 }

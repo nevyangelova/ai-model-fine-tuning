@@ -1,14 +1,7 @@
 'use client';
 
-import {useEffect, useState} from 'react';
-import {
-    Box,
-    Typography,
-    Button,
-    Stack,
-    Paper,
-    CircularProgress,
-} from '@mui/material';
+import React, {useEffect, useState} from 'react';
+import {Box, Typography, Stack, Paper} from '@mui/material';
 import {
     ScienceOutlined,
     SettingsOutlined,
@@ -16,6 +9,7 @@ import {
 } from '@mui/icons-material';
 import {useFormContext} from '@/contexts/FormContext';
 import {useModels, useCreateJob} from '@/services/api';
+import StepNavigation from '@/components/ui/StepNavigation';
 
 interface ReviewStepProps {
     onSuccess: () => void;
@@ -66,7 +60,9 @@ export default function ReviewStep({onSuccess, onError}: ReviewStepProps) {
 
             <Stack spacing={3} sx={{mt: 2}}>
                 <Paper sx={{p: 3, display: 'flex', alignItems: 'center'}}>
-                    <BuildOutlined sx={{color: 'secondary', mr: 2, mt: 0.5}} />
+                    <BuildOutlined
+                        sx={{color: 'secondary.main', mr: 2, mt: 0.5}}
+                    />
                     <Box>
                         <Typography variant='h6' fontWeight={600}>
                             Job Name
@@ -79,7 +75,7 @@ export default function ReviewStep({onSuccess, onError}: ReviewStepProps) {
 
                 <Paper sx={{p: 3, display: 'flex', alignItems: 'center'}}>
                     <ScienceOutlined
-                        sx={{color: 'secondary', mr: 2, mt: 0.5}}
+                        sx={{color: 'secondary.main', mr: 2, mt: 0.5}}
                     />
                     <Box>
                         <Typography variant='h6' fontWeight={600}>
@@ -93,7 +89,7 @@ export default function ReviewStep({onSuccess, onError}: ReviewStepProps) {
 
                 <Paper sx={{p: 3, display: 'flex', alignItems: 'center'}}>
                     <SettingsOutlined
-                        sx={{color: 'secondary', mr: 2, mt: 0.5}}
+                        sx={{color: 'secondary.main', mr: 2, mt: 0.5}}
                     />
                     <Box>
                         <Typography variant='h6' fontWeight={600}>
@@ -104,7 +100,6 @@ export default function ReviewStep({onSuccess, onError}: ReviewStepProps) {
                             color='text.secondary'
                             sx={{mt: 1}}
                         >
-                            {' '}
                             Epochs: {formData.epochs} • Eval epochs:{' '}
                             {formData.evaluationEpochs} • Warmup epochs:{' '}
                             {formData.warmupEpochs} • Learning rate:{' '}
@@ -114,47 +109,13 @@ export default function ReviewStep({onSuccess, onError}: ReviewStepProps) {
                 </Paper>
             </Stack>
 
-            <Box sx={{display: 'flex', justifyContent: 'space-between', mt: 4}}>
-                <Button
-                    variant='outlined'
-                    onClick={prevStep}
-                    sx={{
-                        borderColor: '#000',
-                        color: '#000',
-                        borderRadius: '4px',
-                        '&:hover': {
-                            backgroundColor: '#000',
-                            color: '#fff',
-                        },
-                    }}
-                >
-                    Back
-                </Button>
-                <Button
-                    variant='contained'
-                    onClick={handleSubmit}
-                    sx={{
-                        backgroundColor: '#000',
-                        borderRadius: '4px',
-                        '&:hover': {
-                            backgroundColor: '#333',
-                        },
-                    }}
-                >
-                    {isPending ? (
-                        <>
-                            <CircularProgress
-                                size={20}
-                                color='inherit'
-                                sx={{mr: 1}}
-                            />
-                            Submitting...
-                        </>
-                    ) : (
-                        'Start Fine-tuning'
-                    )}
-                </Button>
-            </Box>
+            <StepNavigation
+                onBack={prevStep}
+                onNext={handleSubmit}
+                nextLabel='Start Fine-tuning'
+                isLoading={isPending}
+                loadingText='Submitting...'
+            />
         </Box>
     );
 }
