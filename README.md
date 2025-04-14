@@ -4,7 +4,18 @@ This is a Next.js application for managing AI model fine-tuning jobs. The platfo
 
 ## Getting Started
 
-First, run the development server:
+First, set up your environment variables:
+
+```bash
+# Create a .env.local file in the root directory
+touch .env.local
+
+# Add your API key to the .env.local file
+echo "NEXT_PUBLIC_API_KEY=your_api_key_here" >> .env.local
+echo "NEXT_PUBLIC_API_BASE_URL=https://fe-test-api-production.up.railway.app/api" >> .env.local
+```
+
+Then, run the development server:
 
 ```bash
 npm run dev
