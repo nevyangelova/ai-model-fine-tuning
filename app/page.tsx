@@ -1,15 +1,10 @@
-'use client';
-
 import React from 'react';
 import {Box} from '@mui/material';
-import {useJobs} from '@/services/api';
 import PageHeader from '@/components/ui/PageHeader';
 import JobsCard from '@/components/dashboard/JobsCard';
 import GetStartedCard from '@/components/dashboard/GetStartedCard';
 
 export default function DashboardPage() {
-    const {data, isLoading, error} = useJobs();
-
     return (
         <Box p={4}>
             <PageHeader title='Acme Inc' />
@@ -23,12 +18,7 @@ export default function DashboardPage() {
                 }}
             >
                 <Box sx={{flex: 1}}>
-                    <JobsCard
-                        jobs={data?.jobs || []}
-                        summary={data?.summary}
-                        isLoading={isLoading}
-                        error={error}
-                    />
+                    <JobsCard />
                 </Box>
 
                 <Box sx={{flex: 1}}>
